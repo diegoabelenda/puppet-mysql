@@ -1,4 +1,7 @@
-class mysql::params {
+class mysql::params (
+  $server_package_name = "mysql-server",
+  $manage_user         = true,
+) {
 
   $mycnf = $operatingsystem ? {
     /RedHat|Fedora|CentOS/ => "/etc/my.cnf",

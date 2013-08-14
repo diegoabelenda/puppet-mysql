@@ -15,13 +15,16 @@ class mysql::server::base {
 
   include mysql::params
 
-  user { "mysql":
-    ensure => present,
-    require => Package["mysql-server"],
+  if $mysql::params::manage_user {
+    user { "mysql":
+      ensure  => present,
+      require => Package["mysql-server"],
+    }
   }
 
-  package { "mysql-server":
+  package { $mysql::params::server_package_name:
     ensure => installed,
+    alias  => 'mysql-server',
   }
 
   file { "${mysql::params::data_dir}":
